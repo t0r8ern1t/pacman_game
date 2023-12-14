@@ -1,15 +1,15 @@
-package com.mygdx.game;
-
-import com.badlogic.gdx.graphics.Texture;
+package units;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import sys.GameScreen;
 
 public class EnemyStack {
     private Enemy[] enemies;
 
-    public EnemyStack(MyGame game) {
+    public EnemyStack(GameScreen game_screen, TextureAtlas atlas) {
         enemies = new Enemy[5];
         for (int i = 0; i < enemies.length; ++i){
-            enemies[i] = new Enemy(game);
+            enemies[i] = new Enemy(game_screen, atlas);
         }
     }
 
@@ -17,6 +17,11 @@ public class EnemyStack {
         return enemies;
     }
 
+    public void deactivateAll() {
+        for (int i = 0; i < enemies.length; ++i) {
+            enemies[i].stop();
+        }
+    }
     public void activate(float x, float y) {
             for (int i = 0; i < enemies.length; ++i) {
                 if (!enemies[i].isActive()) {

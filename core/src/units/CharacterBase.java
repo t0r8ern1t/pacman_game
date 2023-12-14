@@ -1,19 +1,18 @@
-package com.mygdx.game;
+package units;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.HashMap;
+import sys.Direction;
+import sys.GameScreen;
 
 public abstract class CharacterBase {
     public static final int SIZE = 32;
 
-    protected MyGame game;
-    protected Texture gen_texture;
-    protected Texture eat_texture;
-    protected Texture curr_texture;
+    protected GameScreen game;
+    protected TextureRegion gen_texture;
+    protected TextureRegion eat_texture;
+    protected TextureRegion curr_texture;
     protected Vector2 position;
     protected Vector2 tmp;
     protected float speed;
@@ -33,7 +32,7 @@ public abstract class CharacterBase {
         }
         if (this instanceof Pacman) {
             if (game.getMap().isBullet(position.x, position.y, SIZE/2)){
-                System.out.println(1);
+                ((Pacman) this).addBullet();
             }
         }
     }
@@ -41,7 +40,6 @@ public abstract class CharacterBase {
     public Vector2 getPosition() {
         return position;
     }
-
 
     public void stop() { speed = 0; }
 

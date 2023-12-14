@@ -1,22 +1,29 @@
-package com.mygdx.game;
+package units;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import sys.WallCollection;
 
 public class Map {
     public static final int CELL_SIZE = 40;
     public static final int BULLET_SIZE = 16;
     public static final int X_SIZE = 32;
     public static final int Y_SIZE = 18;
-    private Texture wall_texture;
-    private Texture bullet_texture;
+    private TextureRegion wall_texture;
+    private TextureRegion bullet_texture;
     private int obstacles[][];
 
-    public Map(){
-        wall_texture = new Texture("square_block.png");
-        bullet_texture = new Texture("dot.png");
+    public Map(TextureAtlas atlas){
+        wall_texture = atlas.findRegion("square_block");
+        bullet_texture = atlas.findRegion("dot");
         obstacles = new int[X_SIZE][Y_SIZE];
+        setRandomWalls();
+        setBullets();
+    }
+
+    public void regenerate() {
         setRandomWalls();
         setBullets();
     }

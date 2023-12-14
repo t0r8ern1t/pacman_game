@@ -1,36 +1,40 @@
-package com.mygdx.game;
+package units;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class BulletStack {
-    private Texture bullet_texture;
+    private TextureRegion bullet_texture;
     private int bullets_collected;
     private Bullet[] bullets;
 
-    public BulletStack() {
-        bullet_texture = new Texture("dot.png");
-        bullets_collected = 10;
+    public BulletStack(TextureAtlas atlas) {
+        bullet_texture = atlas.findRegion("dot");
+        bullets_collected = 0;
         bullets = new Bullet[5];
         for (int i = 0; i < bullets.length; ++i){
             bullets[i] = new Bullet();
         }
     }
 
+    public void setBulletsCollected(int n) { bullets_collected = n; }
+
     public Bullet[] getBullets() {
         return bullets;
     }
 
-    public void activate(int fire_angle, float x, float y) {
+    public boolean activate(int fire_angle, float x, float y) {
         if (bullets_collected > 0) {
             for (int i = 0; i < bullets.length; ++i) {
                 if (!bullets[i].isActive()) {
                     bullets[i].activate(fire_angle, x, y);
                     bullets_collected -= 1;
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void bulletCollected() {
