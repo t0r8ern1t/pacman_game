@@ -2,6 +2,7 @@ package sys;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -34,8 +35,10 @@ public class MenuScreen implements Screen {
     public void createButtons() {
         Skin skin = new Skin();
         skin.add("text_button", new TextureRegion(atlas.findRegion("text_button")));
+        skin.add("text_button_down", new TextureRegion(atlas.findRegion("text_button_down")));
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("text_button");
+        textButtonStyle.down = skin.getDrawable("text_button_down");
         textButtonStyle.font = font;
         final TextButton play_button = new TextButton("Play", textButtonStyle);
         final TextButton controls_button = new TextButton("Controls", textButtonStyle);
@@ -72,6 +75,14 @@ public class MenuScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         update(delta);
         stage.draw();
+        batch.begin();
+        font.setColor(120, 120, 0, 1);
+        font.getData().setScale(2f);
+        font.draw(batch, "Pacman", (float) Gdx.graphics.getWidth() /2 - 120, (float) (Gdx.graphics.getHeight())*11/12);
+        font.getData().setScale(1f);
+        font.draw(batch, "but make it tanks", (float) Gdx.graphics.getWidth() /2 - 135, (float) (Gdx.graphics.getHeight())*10/12);
+
+        batch.end();
     }
 
     public void update(float dt) {

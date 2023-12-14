@@ -1,5 +1,4 @@
 package sys;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,14 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class ControlsScreen implements Screen {
+public class GameOverScreen implements Screen {
     private SpriteBatch batch;
     private TextureAtlas atlas;
     private BitmapFont font;
     private Stage stage;
+    private int score;
 
-    public ControlsScreen(SpriteBatch batch) {
+    public GameOverScreen(SpriteBatch batch, int score){
         this.batch = batch;
+        this.score = score;
     }
 
     @Override
@@ -31,13 +32,13 @@ public class ControlsScreen implements Screen {
         createButton();
     }
 
+    public void setScore(int score) { this.score = score; }
+
     public void createButton() {
         Skin skin = new Skin();
         skin.add("text_button", new TextureRegion(atlas.findRegion("text_button")));
-        skin.add("text_button_down", new TextureRegion(atlas.findRegion("text_button_down")));
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("text_button");
-        textButtonStyle.down = skin.getDrawable("text_button_down");
         textButtonStyle.font = font;
         final TextButton exit_button = new TextButton("Exit to menu", textButtonStyle);
         exit_button.addListener(new ChangeListener() {
@@ -46,7 +47,7 @@ public class ControlsScreen implements Screen {
                 ScreenManager.getInstance().setScreen(ScreenManager.ScreenType.MENU);
             }
         });
-        exit_button.setPosition((float) Gdx.graphics.getWidth() /2-220, (float) Gdx.graphics.getHeight()/5);
+        exit_button.setPosition((float) Gdx.graphics.getWidth() /2-220, (float) Gdx.graphics.getHeight()/3);
         stage.addActor(exit_button);
         Gdx.input.setInputProcessor(stage);
     }
@@ -55,13 +56,11 @@ public class ControlsScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         update(delta);
-        batch.begin();
         stage.draw();
-        font.draw(batch, "Use WASD or arrow keys to move", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*10/12);
-        font.draw(batch, "Collect bullets and shoot ghosts by pressing space", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*9/12);
-        font.draw(batch, "Don't let the ghosts touch you", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*8/12);
-        font.draw(batch, "Levels are generated randomly, you can re-generate the level", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*7/12);
-        font.draw(batch, "if it looks wrong", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*6/12);
+        batch.begin();
+        font.setColor(120, 120, 0, 1);
+        font.draw(batch, "Haha ur ded", (float) Gdx.graphics.getWidth() /2-220, (float) Gdx.graphics.getHeight()*8/12);
+        font.draw(batch, "You scored " + score, (float) Gdx.graphics.getWidth() /2-220, (float) Gdx.graphics.getHeight()*7/12);
         batch.end();
     }
 

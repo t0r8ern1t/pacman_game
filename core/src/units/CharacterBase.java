@@ -8,7 +8,6 @@ import sys.GameScreen;
 
 public abstract class CharacterBase {
     public static final int SIZE = 32;
-
     protected GameScreen game;
     protected TextureRegion gen_texture;
     protected TextureRegion eat_texture;
@@ -29,12 +28,14 @@ public abstract class CharacterBase {
         if (game.getMap().isAreaClear(tmp.x, tmp.y, (SIZE+7)/2)){
             tmp.add(speed*direction.getVx()*dt, speed*direction.getVy()*dt);
             position.set(tmp);
-        }
-        if (this instanceof Pacman) {
-            if (game.getMap().isBullet(position.x, position.y, SIZE/2)){
-                ((Pacman) this).addBullet();
+            if (this instanceof Pacman) {
+                if (game.getMap().isBullet(position.x, position.y, SIZE/2)){
+                    ((Pacman) this).addBullet();
+                }
+                ((Pacman) this).changeTexture(dt);
             }
         }
+
     }
 
     public Vector2 getPosition() {

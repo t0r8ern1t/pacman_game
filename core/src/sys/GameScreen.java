@@ -55,11 +55,13 @@ public class GameScreen implements Screen {
         skin.add("stop", new TextureRegion(atlas.findRegion("stop_button")));
         skin.add("go", new TextureRegion(atlas.findRegion("go_button")));
         skin.add("text_button", new TextureRegion(atlas.findRegion("text_button")));
+        skin.add("text_button_down", new TextureRegion(atlas.findRegion("text_button_down")));
         TextButton.TextButtonStyle textImageStyle = new TextButton.TextButtonStyle();
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textImageStyle.up = skin.getDrawable("stop");
         textImageStyle.checked = skin.getDrawable("go");
         textButtonStyle.up = skin.getDrawable("text_button");
+        textButtonStyle.down = skin.getDrawable("text_button_down");
         textImageStyle.font = font;
         textButtonStyle.font = font;
         final TextButton pause_button = new TextButton("", textImageStyle);
@@ -141,6 +143,11 @@ public class GameScreen implements Screen {
             enemy_stack.activate(x, y);
         }
     }
+
+    public void GameOver() {
+        ScreenManager.getInstance().setScore(pacman.getBulletsCollected());
+        ScreenManager.getInstance().setScreen(ScreenManager.ScreenType.GAMEOVER);
+    }
     public void checkEnemyCollisions() {
         for (int j = 0; j < enemy_stack.getEnemies().length; ++j) {
             Enemy enemy = enemy_stack.getEnemies()[j];
@@ -172,6 +179,7 @@ public class GameScreen implements Screen {
                     enemy.damageMade();
                     pacman.stop();
                     enemy_stack.deactivateAll();
+
                 }
             }
         }
