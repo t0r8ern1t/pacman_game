@@ -1,11 +1,16 @@
 package sys;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameOverScreen extends SimpleScreen {
     private int score;
     private boolean win;
+    private Sound sound;
 
     public GameOverScreen(SpriteBatch batch, int score){
         this.batch = batch;
@@ -13,7 +18,22 @@ public class GameOverScreen extends SimpleScreen {
         this.win = false;
     }
 
-    public void setWin(boolean res) { win = res; }
+    @Override
+    public void show() {
+        atlas = new TextureAtlas(Gdx.files.internal("game_pack.atlas"));
+        font = new BitmapFont(Gdx.files.internal("CooperBlack.fnt"));
+        stage = new Stage();
+        sound.play();
+        createButtons();
+    }
+
+    public void setWin(boolean res) {
+        win = res;
+        if (win) {
+            sound = Gdx.audio.newSound(Gdx.files.internal("win.mp3"));
+        }
+        else sound = Gdx.audio.newSound(Gdx.files.internal("failure.mp3"));
+    }
 
     public void setScore(int score) { this.score = score; }
 

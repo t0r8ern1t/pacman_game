@@ -2,6 +2,7 @@ package sys;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,6 +21,7 @@ public class GameScreen extends SimpleScreen {
     private BulletStack bullet_stack;
     private EnemyStack enemy_stack;
     private Map map;
+    private Music music;
     private boolean paused;
 
 
@@ -35,6 +37,9 @@ public class GameScreen extends SimpleScreen {
         font = new BitmapFont(Gdx.files.internal("CooperBlack.fnt"));
         pacman = new Pacman(this, atlas);
         bullet_stack = new BulletStack(atlas);
+        music = Gdx.audio.newMusic(Gdx.files.internal("main_theme.mp3"));
+        music.setLooping(true);
+        music.play();
         map = new Map(atlas);
         enemy_stack = new EnemyStack(this, atlas);
         activateEnemies();
@@ -67,6 +72,7 @@ public class GameScreen extends SimpleScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 ScreenManager.getInstance().setScreen(ScreenManager.ScreenType.MENU);
+                music.stop();
             }
         });
         rerun_button.addListener(new ChangeListener() {
@@ -143,6 +149,7 @@ public class GameScreen extends SimpleScreen {
     }
 
     public void gameOver(boolean res) {
+        music.stop();
         ScreenManager.getInstance().setResult(pacman.getBulletsCollected(), res);
         ScreenManager.getInstance().setScreen(ScreenManager.ScreenType.GAMEOVER);
     }
