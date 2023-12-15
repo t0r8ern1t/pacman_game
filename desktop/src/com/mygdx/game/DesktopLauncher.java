@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import sys.MyGame;
@@ -11,6 +12,8 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("pacman_game");
 		config.setWindowedMode(1280, 720);
+		config.setResizable(false);
+		config.setWindowIcon(Files.FileType.Internal, "pacman2.png");
 		new Lwjgl3Application(new MyGame(), config);
 	}
 }
