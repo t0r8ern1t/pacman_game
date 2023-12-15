@@ -1,8 +1,7 @@
 package sys;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,12 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import units.*;
 
-public class GameScreen implements Screen {
-
-    private SpriteBatch batch;
-    private TextureAtlas atlas;
-    private BitmapFont font;
-    private Stage stage;
+public class GameScreen extends SimpleScreen {
     private Pacman pacman;
     private BulletStack bullet_stack;
     private EnemyStack enemy_stack;
@@ -48,6 +42,7 @@ public class GameScreen implements Screen {
         createButtons();
         paused = false;
     }
+
     public void createButtons() {
         // пока пусть будет через текст
         // TODO разобраться почему эта штука не работает с ImageButton
@@ -82,7 +77,6 @@ public class GameScreen implements Screen {
         });
         exit_button.setPosition((float) Gdx.graphics.getWidth() /2-220, (float) Gdx.graphics.getHeight()/3);
         rerun_button.setPosition((float) Gdx.graphics.getWidth() /2-220, (float) Gdx.graphics.getHeight()/2);
-
 
         pause_button.addListener(new ChangeListener() {
             @Override
@@ -125,6 +119,9 @@ public class GameScreen implements Screen {
             checkCollisions();
         }
         stage.act(dt);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.Z))
+            gameOver(true);
     }
 
     public void regenerate() {
@@ -133,6 +130,7 @@ public class GameScreen implements Screen {
         enemy_stack = new EnemyStack(this, atlas);
         activateEnemies();
     }
+
     public void activateEnemies(){
         for (int i = 0; i < enemy_stack.getEnemies().length; ++i) {
             int x, y;
@@ -144,14 +142,16 @@ public class GameScreen implements Screen {
         }
     }
 
-    public void GameOver() {
-        ScreenManager.getInstance().setScore(pacman.getBulletsCollected());
+    public void gameOver(boolean res) {
+        ScreenManager.getInstance().setResult(pacman.getBulletsCollected(), res);
         ScreenManager.getInstance().setScreen(ScreenManager.ScreenType.GAMEOVER);
     }
+
     public void checkEnemyCollisions() {
+        if (!enemy_stack.isActive()) gameOver(true);
         for (int j = 0; j < enemy_stack.getEnemies().length; ++j) {
             Enemy enemy = enemy_stack.getEnemies()[j];
-            if (enemy.isActive()) {
+            if (!enemy.isDying()) {
                 //столкновения с пулями
                 for (int i = 0; i < bullet_stack.getBullets().length; ++i) {
                     Bullet bullet = bullet_stack.getBullets()[i];
@@ -166,7 +166,7 @@ public class GameScreen implements Screen {
                 for (int i = 0; i < enemy_stack.getEnemies().length; ++i) {
                     if (i != j) {
                         Enemy enemy2 = enemy_stack.getEnemies()[i];
-                        if (enemy2.isActive()) {
+                        if (!enemy2.isDying()) {
                             if (enemy.getPosition().dst(enemy2.getPosition()) <= enemy.SIZE) {
                                 enemy.setRandDirection();
                                 enemy2.setRandDirection();
@@ -191,32 +191,5 @@ public class GameScreen implements Screen {
             }
         }
         checkEnemyCollisions();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        atlas.dispose();
-        font.dispose();
     }
 }

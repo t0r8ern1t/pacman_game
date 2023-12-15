@@ -9,6 +9,12 @@ public class BulletStack {
     private int bullets_collected;
     private Bullet[] bullets;
 
+    public void setBulletsCollected(int n) { bullets_collected = n; }
+
+    public Bullet[] getBullets() {
+        return bullets;
+    }
+
     public BulletStack(TextureAtlas atlas) {
         bullet_texture = atlas.findRegion("dot");
         bullets_collected = 0;
@@ -16,12 +22,6 @@ public class BulletStack {
         for (int i = 0; i < bullets.length; ++i){
             bullets[i] = new Bullet();
         }
-    }
-
-    public void setBulletsCollected(int n) { bullets_collected = n; }
-
-    public Bullet[] getBullets() {
-        return bullets;
     }
 
     public boolean activate(int fire_angle, float x, float y) {
@@ -35,10 +35,6 @@ public class BulletStack {
             }
         }
         return false;
-    }
-
-    public void bulletCollected() {
-        bullets_collected += 1;
     }
 
     public void render(SpriteBatch batch) {

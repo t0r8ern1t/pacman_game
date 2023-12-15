@@ -1,14 +1,11 @@
 package units;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet {
     public static final int SIZE = 16;
     private Vector2 position;
     private Vector2 speed;
-    private int value;
     private boolean active;
 
     public boolean isActive() {
@@ -17,12 +14,9 @@ public class Bullet {
 
     public Vector2 getPosition() { return position; }
 
-    public int getValue() { return value; }
-
     public Bullet() {
         position = new Vector2(0, 0);
         speed = new Vector2(0, 0);
-        value = 1;
         active = false;
     }
 

@@ -22,6 +22,15 @@ public class EnemyStack {
             enemies[i].stop();
         }
     }
+
+    public boolean isActive() {
+        for (int i = 0; i < enemies.length; ++i) {
+            if (enemies[i].isActive())
+                return true;
+        }
+        return false;
+    }
+
     public void activate(float x, float y) {
             for (int i = 0; i < enemies.length; ++i) {
                 if (!enemies[i].isActive()) {

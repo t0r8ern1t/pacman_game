@@ -12,9 +12,18 @@ public abstract class CharacterBase {
     protected TextureRegion gen_texture;
     protected TextureRegion eat_texture;
     protected TextureRegion curr_texture;
+    protected TextureRegion death[];
     protected Vector2 position;
     protected Vector2 tmp;
+    protected float timer;
+    protected float max_timer;
     protected float speed;
+
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
     public void BordersCollision() {
         if (position.x - SIZE /2 <= 0) position.x = SIZE/2;
         if (position.x + SIZE/2 >= Gdx.graphics.getWidth()) position.x = Gdx.graphics.getWidth() - SIZE/2;
@@ -36,10 +45,6 @@ public abstract class CharacterBase {
             }
         }
 
-    }
-
-    public Vector2 getPosition() {
-        return position;
     }
 
     public void stop() { speed = 0; }

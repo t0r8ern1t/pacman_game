@@ -10,10 +10,7 @@ public class ScreenManager {
     }
     private static ScreenManager ourInstance = new ScreenManager();
     public static ScreenManager getInstance() { return ourInstance; }
-
-    private ScreenManager() {
-
-    }
+    private ScreenManager() {}
     private Game game;
     private GameScreen game_screen;
     private MenuScreen menu_screen;
@@ -28,8 +25,9 @@ public class ScreenManager {
         gameover_screen = new GameOverScreen(batch, 0);
     }
 
-    public void setScore(int n) {
+    public void setResult(int n, boolean res) {
         gameover_screen.setScore(n);
+        gameover_screen.setWin(res);
     }
     public void setScreen(ScreenType type) {
         Screen curr_screen = game.getScreen();

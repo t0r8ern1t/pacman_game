@@ -23,11 +23,6 @@ public class Map {
         setBullets();
     }
 
-    public void regenerate() {
-        setRandomWalls();
-        setBullets();
-    }
-
     public void setRandomWalls() {
         for (int i = 0; i < X_SIZE-5; i += 4) {
             for (int j = 0; j < Y_SIZE-5; j += 4) {
@@ -59,6 +54,11 @@ public class Map {
                 }
             }
         }
+    }
+
+    public void regenerate() {
+        setRandomWalls();
+        setBullets();
     }
 
     public boolean isBullet(float x, float y, float half_size) {
