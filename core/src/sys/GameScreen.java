@@ -154,49 +154,57 @@ public class GameScreen extends SimpleScreen {
         ScreenManager.getInstance().setScreen(ScreenManager.ScreenType.GAMEOVER);
     }
 
-    public void checkEnemyCollisions() {
-        if (!enemy_stack.isActive()) gameOver(true);
-        for (int j = 0; j < enemy_stack.getEnemies().length; ++j) {
-            Enemy enemy = enemy_stack.getEnemies()[j];
-            if (!enemy.isDying()) {
-                //столкновения с пулями
-                for (int i = 0; i < bullet_stack.getBullets().length; ++i) {
-                    Bullet bullet = bullet_stack.getBullets()[i];
-                    if (bullet.isActive()) {
-                        if (enemy.getPosition().dst(bullet.getPosition()) <= enemy.SIZE/2) {
-                            enemy.damageTaken();
-                            bullet.deactivate();
-                        }
-                    }
-                }
-                //столькновения с другими призраками
-                for (int i = 0; i < enemy_stack.getEnemies().length; ++i) {
-                    if (i != j) {
-                        Enemy enemy2 = enemy_stack.getEnemies()[i];
-                        if (!enemy2.isDying()) {
-                            if (enemy.getPosition().dst(enemy2.getPosition()) <= enemy.SIZE) {
-                                enemy.setRandDirection();
-                                enemy2.setRandDirection();
-                            }
-                        }
-                    }
-                }
-                if (enemy.getPosition().dst(pacman.getPosition()) <= enemy.SIZE) {
-                    pacman.damageTaken();
-                    enemy.damageMade();
-                    pacman.stop();
-                    enemy_stack.deactivateAll();
-
+    public void enemyBulletCollision(Enemy enemy){
+        for (int i = 0; i < bullet_stack.getBullets().length; ++i) {
+            Bullet bullet = bullet_stack.getBullets()[i];
+            if (bullet.isActive()) {
+                if (enemy.getPosition().dst(bullet.getPosition()) <= enemy.SIZE/2) {
+                    enemy.damageTaken();
+                    bullet.deactivate();
                 }
             }
         }
     }
+
+    public void enemyEnemyCollision(Enemy enemy, int j) {
+        for (int i = 0; i < enemy_stack.getEnemies().length; ++i) {
+            if (i != j) {
+                Enemy enemy2 = enemy_stack.getEnemies()[i];
+                if (!enemy2.isDying()) {
+                    if (enemy.getPosition().dst(enemy2.getPosition()) <= enemy.SIZE) {
+                        enemy.setRandDirection();
+                        enemy2.setRandDirection();
+                    }
+                }
+            }
+        }
+    }
+
+    public void enemyPacmanCollision(Enemy enemy) {
+        if (enemy.getPosition().dst(pacman.getPosition()) <= enemy.SIZE) {
+            pacman.damageTaken();
+            enemy.damageMade();
+            pacman.stop();
+            enemy_stack.deactivateAll();
+
+        }
+    }
+
     public void checkCollisions() {
         for (int i = 0; i < bullet_stack.getBullets().length; ++i) {
             if (bullet_stack.getBullets()[i].isActive()) {
                 map.checkBulletWallCollision(bullet_stack.getBullets()[i]);
             }
         }
-        checkEnemyCollisions();
+
+        if (!enemy_stack.isActive()) gameOver(true);
+        for (int j = 0; j < enemy_stack.getEnemies().length; ++j) {
+            Enemy enemy = enemy_stack.getEnemies()[j];
+            if (!enemy.isDying()) {
+                enemyBulletCollision(enemy);
+                enemyEnemyCollision(enemy, j);
+                enemyPacmanCollision(enemy);
+            }
+        }
     }
 }
