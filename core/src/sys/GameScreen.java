@@ -39,7 +39,7 @@ public class GameScreen extends SimpleScreen {
         bullet_stack = new BulletStack(atlas);
         music = Gdx.audio.newMusic(Gdx.files.internal("main_theme.mp3"));
         music.setLooping(true);
-        music.play();
+        //music.play();
         map = new Map(atlas);
         enemy_stack = new EnemyStack(this, atlas);
         activateEnemies();

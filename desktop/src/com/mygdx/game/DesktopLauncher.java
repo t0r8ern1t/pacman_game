@@ -10,7 +10,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("pacman_game");
+		config.setTitle("pacman game");
 		config.setWindowedMode(1280, 720);
 		config.setResizable(false);
 		config.setWindowIcon(Files.FileType.Internal, "pacman2.png");

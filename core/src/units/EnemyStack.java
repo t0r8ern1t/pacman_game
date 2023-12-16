@@ -1,6 +1,7 @@
 package units;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import sys.GameScreen;
 
 public class EnemyStack {
@@ -9,7 +10,8 @@ public class EnemyStack {
     public EnemyStack(GameScreen game_screen, TextureAtlas atlas) {
         enemies = new Enemy[5];
         for (int i = 0; i < enemies.length; ++i){
-            enemies[i] = new Enemy(game_screen, atlas);
+            int type = MathUtils.random(0, 2);
+            enemies[i] = new Enemy(game_screen, atlas, type);
         }
     }
 

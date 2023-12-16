@@ -17,6 +17,8 @@ public abstract class SimpleScreen implements Screen {
     protected TextureAtlas atlas;
     protected BitmapFont font;
     protected Stage stage;
+    protected int world_width;
+    protected int world_height;
 
     @Override
     public void show() {
@@ -52,7 +54,9 @@ public abstract class SimpleScreen implements Screen {
     public void render(float delta) {    }
 
     @Override
-    public void resize(int width, int height) {    }
+    public void resize(int width, int height) {
+        ScreenManager.getInstance().resize(width, height);
+    }
 
     @Override
     public void pause() {    }

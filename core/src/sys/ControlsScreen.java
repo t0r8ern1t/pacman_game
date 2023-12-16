@@ -21,9 +21,10 @@ public class ControlsScreen extends SimpleScreen {
         update(delta);
         batch.begin();
         stage.draw();
-        font.draw(batch, "Use WASD or arrow keys to move", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*10/12);
-        font.draw(batch, "Collect bullets and shoot ghosts by pressing space", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*9/12);
-        font.draw(batch, "Don't let the ghosts touch you", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*8/12);
+        font.draw(batch, "Use WASD or arrow keys to move", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*11/12);
+        font.draw(batch, "Collect bullets and shoot ghosts by pressing space", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*10/12);
+        font.draw(batch, "Don't let the ghosts touch you", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*9/12);
+        font.draw(batch, "Green = slow, Blue = fast", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*8/12);
         font.draw(batch, "Levels are generated randomly, you can re-generate the level", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*7/12);
         font.draw(batch, "if it looks wrong", (float) Gdx.graphics.getWidth()/2-400, (float) Gdx.graphics.getHeight()*6/12);
         batch.end();

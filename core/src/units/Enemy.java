@@ -17,24 +17,40 @@ public class Enemy extends CharacterBase {
     private boolean dying;
     private Vector3 last_position;
 
-    public Enemy(GameScreen game_screen, TextureAtlas atlas){
+    public Enemy(GameScreen game_screen, TextureAtlas atlas, int type){
         game = game_screen;
-        gen_texture = atlas.findRegion("purple_ghost_down");
         eat_texture = atlas.findRegion("ghost_alert");
         hp_texture = atlas.findRegion("hpbar");
-        curr_texture = atlas.findRegion("purple_ghost_down");
-        death = atlas.findRegion("ghost_death").split(SIZE, SIZE)[0];
         position = new Vector2(0, 0);
         last_position = new Vector3(0, 0, 0);
         dying = false;
-        speed = 80;
-        max_hp = 10;
-        curr_hp = max_hp;
         timer = 0;
         max_timer = 3f;
         active = false;
         tmp = new Vector2(0, 0);
         direction = Direction.UP;
+        switch (type){
+            case 0:
+                gen_texture = atlas.findRegion("purple_ghost");
+                death = atlas.findRegion("purple_ghost_death").split(SIZE, SIZE)[0];
+                speed = 80;
+                max_hp = 5;
+                break;
+            case 1:
+                gen_texture = atlas.findRegion("blue_ghost");
+                death = atlas.findRegion("blue_ghost_death").split(SIZE, SIZE)[0];
+                speed = 120;
+                max_hp = 1;
+                break;
+            case 2:
+                gen_texture = atlas.findRegion("green_ghost");
+                death = atlas.findRegion("green_ghost_death").split(SIZE, SIZE)[0];
+                speed = 50;
+                max_hp = 10;
+                break;
+        }
+        curr_hp = max_hp;
+        curr_texture = gen_texture;
     }
 
     public void render(SpriteBatch batch) {
@@ -62,7 +78,6 @@ public class Enemy extends CharacterBase {
 
     public void activate(float x, float y) {
         active = true;
-        speed = 80;
         curr_texture = gen_texture;
         curr_hp = max_hp;
         position.set(x, y);
